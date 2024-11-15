@@ -10,6 +10,7 @@ use Laravel\Sanctum\HasApiTokens;
 use App\Helper\helper;
 use Illuminate\Support\Facades\Hash;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 
 class User extends Authenticatable
 {
@@ -70,13 +71,28 @@ class User extends Authenticatable
         $data->mobile_number = $request->mobile_number;
 
         /* For Upload Profile pic */
-        $profilepicname = null;
-        if(isset($request->profile) && $request->profile !=''){
-            $profilelogo   = $request->profile;
-            $profilepicname = 'Profile-'.$request->first_name.'-'.time().'.'.$request->profile->getClientOriginalExtension();
-            $profilelogo->move(Helper::profileFileUploadPath(), $profilepicname);
+        // $profilepicname = null;
+        // if(isset($request->profile) && $request->profile !=''){
+        //     $profilelogo   = $request->profile;
+        //     $profilepicname = 'Profile-'.$request->first_name.'-'.time().'.'.$request->profile->getClientOriginalExtension();
+        //     $profilelogo->move(Helper::profileFileUploadPath(), $profilepicname);
+        // }
+
+        if ($request->hasFile('profile')) {
+            $image = $request->file('profile');
+
+            // Store the image in the public/profile directory
+            $path = $image->store('profile', 'public');
+
+            // App URL
+            $appurl = 'https://tortoise-new-emu.ngrok-free.app';
+
+            // Generate a full URL to the image
+            $profileURL = $appurl . Storage::url($path);
+        } else {
+            return response()->json(['error' => 'Profile Image upload failed'], 400);
         }
-        $data->profile = $profilepicname;
+        $data->profile = $profileURL;
         $data->gender = $request->gender;
         $data->save();
 

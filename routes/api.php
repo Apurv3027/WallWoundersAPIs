@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\Apis\AuthController;
 use App\Http\Controllers\Apis\ForgotPasswordController;
+use App\Http\Controllers\APIs\WallpaperController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,3 +33,10 @@ Route::post('/check_email', [ForgotPasswordController::class, 'checkEmail']);
 
 // Reset Password
 Route::post('/reset_password', [ForgotPasswordController::class, 'resetPassword']);
+
+// Wallpapers
+Route::post('/add-wallpapers', [WallpaperController::class, 'store']); // Add Wallpapers
+Route::get('/wallpapers', [WallpaperController::class, 'index']); // Get All Wallpapers
+Route::get('/wallpapers/free', [WallpaperController::class, 'freeWallpapers']); // Get All Free Wallpapers
+Route::get('/wallpapers/paid', [WallpaperController::class, 'paidWallpapers']); // Get All Paid Wallpapers
+Route::get('/wallpapers/{id}', [WallpaperController::class, 'show']); // Get Wallpapers By ID

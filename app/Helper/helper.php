@@ -40,12 +40,21 @@ class helper {
     public static function profileFileUploadPath(){
         return storage_path('app/public/profilepic/');
     }
+
+    public static function wallpaperImageFileUploadPath(){
+        return storage_path('app/public/wallpaperimage/');
+    }
     /* For Store Path End */
 
-    /* For Display Image */
+    /* For Display Image Path Start */
     public static function displayProfilePath(){
         return URL::to('/').'/storage/profilepic/';
     }
+
+    public static function displayWallpaperImageProfilePath(){
+        return URL::to('/').'/storage/wallpaperimage/';
+    }
+    /* For Display Image Path End */
 
     public static function getRoleArray(){
         return array(
